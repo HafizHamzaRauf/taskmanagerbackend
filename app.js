@@ -19,10 +19,11 @@ app.use("/", (req, res, next) => {
 
 const startServer = async () => {
   try {
-    // Move the app.listen inside the makeConnection callback
-    await app.listen(process.env.PORT || 4000);
+    await db.makeConnection(); // Establish the database connection first
 
-    await db.makeConnection();
+    // Now that the database connection is established, start the server
+    await app.listen(process.env.PORT || 4000);
+    console.log("Server is running on port", process.env.PORT || 4000);
   } catch (error) {
     console.error("Error starting server:", error);
   }
